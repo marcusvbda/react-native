@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Button } from 'react-native'
-
 class Home extends Component {
 	constructor(props) {
 		super(props)
@@ -17,7 +16,6 @@ class Home extends Component {
 	render() {
 		return 	<View style={{ flex: 1, justifyContent:'center',alignItems:'center'}}>
 					<Button
-						style={{ marginTop: 20 }}
 						onPress={() => this.test() }
 						title="Voltar"
 						color="#b21111"
@@ -29,12 +27,3 @@ class Home extends Component {
 
 export default Home
 
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });

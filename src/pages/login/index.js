@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Button } from 'react-native'
+import Styles from "../default/styles"
 
 class Login extends Component {
     constructor(props) {
@@ -8,9 +9,8 @@ class Login extends Component {
     }
     
     render() {
-        return  <View style={{ flex: 1, justifyContent:'center',alignItems:'center'}}>
+        return  <View style={Styles.xy_center}>
                     <Button
-                        style={{ marginTop: 20 }}
                         onPress={() => this.props.data.setPage('_HOME_')}
                         title="Home"
                         color="#841584"

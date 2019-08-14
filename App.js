@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Router from './src/router'
+// import Router from './src/__router'
+import Routes from "./src/routes";
 
 export default function App() {
 	return (
-		<Router />
+		<Routes />
 	);
 }
 

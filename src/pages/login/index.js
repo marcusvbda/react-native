@@ -6,16 +6,17 @@ import Styles from "../default/styles"
 class Login extends Component {
     constructor(props) {
         super(props)
+        console.log(this.props.navigation.state.params)
     }
     
     render() {
+		const {navigate} = this.props.navigation;
         return  <View style={Styles.xy_center}>
                     <Button
-                        onPress={() => this.props.data.setPage('_HOME_')}
-                        title="Home"
+                        onPress={() => navigate('Home')}
+                        title="Voltar para Home"
                         color="#841584"
                     />
-                    <Text>{this.props.data.text}</Text>
                 </View>
     }
 }

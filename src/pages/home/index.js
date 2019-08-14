@@ -6,21 +6,15 @@ class Home extends Component {
 		super(props)
 	}
 
-	test = () => {
-		let values = this.props.data
-		values.text = "lorem lorem lorem"
-		this.props.data.updateState(values)
-		this.props.data.setPage("_LOGIN_")
-	}
 
 	render() {
+		const {navigate} = this.props.navigation;
 		return 	<View style={{ flex: 1, justifyContent:'center',alignItems:'center'}}>
 					<Button
-						onPress={() => this.test() }
-						title="Voltar"
+						onPress={() => navigate('Login',{User: {name: 'john doe', age: 27}})}
+						title="Ir para Login"
 						color="#b21111"
 					/>
-                    <Text>{this.props.data.text}</Text>
 				</View>
 	}
 }

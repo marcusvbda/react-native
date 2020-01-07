@@ -1,29 +1,11 @@
-import HomeScreen from './pages/home/index'
-import LoginScreen from './pages/login/index'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import Hello from './pages/Hello'
 
 const Routes = createAppContainer(
-	createStackNavigator({
-		Home: {
-			screen : HomeScreen,
-			navigationOptions: ({ navigation }) => ({
-				title: "Home",
-				visible : false,
-				params : {test : "lorem ispum"},
-				header : null
-			})
-		},
-		Login: {
-			screen : LoginScreen,
-			navigationOptions: ({ navigation }) => ({
-				title: "Login",
-				visible : false,
-				params : {test : "lorem ispum"},
-				header : null
-			})
-		},
-	})
-);
+    createSwitchNavigator({
+        Hello
+    })
+)
 
-export default Routes;
+export default Routes

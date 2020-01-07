@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import { View, Image, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
-
+import Loading from '../Loading'
 import styles from './styles'
 import logo from '../../../assets/imgs/logo.png'
 import { TextInput } from 'react-native-gesture-handler'
 import Auth from '../../services/auth'
 
 export default function Login({ navigation }) {
+    const [created, setCreated] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    useEffect(() => Auth.check(navigation), [])
+    useEffect(() => {
+        Auth.check(navigation)
+        setCreated(true)
+    }, [])
 
     const submit = async () => {
         await Auth.fakeLogin(email, password, navigation)
     }
 
-
+    if (!created) return <Loading />
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <View style={styles.form}>

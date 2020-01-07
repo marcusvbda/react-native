@@ -5,7 +5,7 @@ const Auth = {
     fakeLogin: async (email, password, navigation) => {
         if (!email) return Alert.alert("Validação", "E-mail é campo obrigatório")
         if (!password) return Alert.alert("Validação", "Senha é campo obrigatório")
-        if ((email != "root") || (password != "root")) return Alert.alert("Erro", "Usuário e/ou senha incorretos")
+        if ((email != "root@root.com") || (password != "root")) return Alert.alert("Erro", "Usuário e/ou senha incorretos")
         let user = { email }
         await AsyncStorage.setItem('user', JSON.stringify(user))
         return Auth.check(navigation)

@@ -5,11 +5,16 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Loading from '../Loading'
 
 export default function Home({ navigation }) {
-    const [user, setUser] = useState("")
+    const [created, setCreated] = useState(false)
+    const [email, setEmail] = useState('')
 
     useEffect(() => {
         AsyncStorage.getItem('user').then(user => {
-            if (user) setUser(user)
+            if (user) {
+                user = JSON.parse(user)
+                setEmail(user.email)
+                setCreated(true)
+            }
         })
     }, [])
 
@@ -25,10 +30,10 @@ export default function Home({ navigation }) {
         },
         ]);
     }
-    if (!user) return <Loading />
+    if (!created) return <Loading />
     return (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text>{user}</Text>
+            <Text>{email}</Text>
             <Button title="Logout" onPress={logout}></Button>
         </View>
     )

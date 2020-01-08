@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Button, Alert, Text } from 'react-native'
-import Auth from '../../services/auth'
 import AsyncStorage from '@react-native-community/async-storage'
 import Loading from '../Loading'
 
 export default function Home({ navigation }) {
-    const [created, setCreated] = useState(false)
-    const [email, setEmail] = useState('')
+    const [user, setUser] = useState("")
 
     useEffect(() => {
-        AsyncStorage.getItem('user').then(user => {
-            if (user) {
-                user = JSON.parse(user)
-                setEmail(user.email)
-                setCreated(true)
-            }
+        AsyncStorage.getItem("user").then(user => {
+            user = JSON.parse(user)
+            setUser(user.email)
         })
     }, [])
+
+    const isloading = () => {
+        return !user
+    }
 
     const logout = () => {
         Alert.alert('Confirmação', 'Deseja efetuar logout ?', [{
@@ -26,14 +25,17 @@ export default function Home({ navigation }) {
         },
         {
             text: 'Sim',
-            onPress: async () => await Auth.logout(navigation)
-        },
-        ]);
+            onPress: async () => {
+                AsyncStorage.removeItem("user")
+                return navigation.navigate('Login')
+            }
+        },])
     }
-    if (!created) return <Loading />
+
+    if (isloading()) return <Loading />
     return (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text>{email}</Text>
+            <Text>{user}</Text>
             <Button title="Logout" onPress={logout}></Button>
         </View>
     )

@@ -1,27 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import { View, Image, Text, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native'
-import Loading from '../Loading'
+import AsyncStorage from '@react-native-community/async-storage'
 import styles from './styles'
 import global_styles from '../../global_styles'
 import logo from '../../../assets/imgs/logo.png'
 import { TextInput } from 'react-native-gesture-handler'
-import Auth from '../../services/auth'
+import { Alert } from 'react-native'
+import api from '../Services/api'
+import Loading from '../Loading'
 
 export default function Login({ navigation }) {
-    const [created, setCreated] = useState(false)
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [email, setEmail] = useState('root')
+    const [password, setPassword] = useState('root')
 
     useEffect(() => {
-        Auth.check(navigation)
-        setCreated(true)
+        const checkAuth = () => {
+            AsyncStorage.getItem("user").then(user => {
+                if (user) return navigation.navigate('Home')
+            })
+        }
+        checkAuth()
     }, [])
 
-    const submit = async () => {
-        await Auth.fakeLogin(email, password, navigation)
+    const submit = () => {
+        if ((!email) || (!password)) return false
+        setLoading(true)
+        let credentials = `Basic ${btoa(email + ':' + password)}`
+        api.defaults.headers.common['Authorization'] = credentials
+        api.post('/app/auth/login', {}).then(res => {
+            console.log("aqui", res)
+            setLoading(false)
+        }).catch(er => {
+            console.log(er)
+            setLoading(false)
+        })
     }
 
-    if (!created) return <Loading />
+    if (loading) return <Loading />
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}
             style={global_styles.body}

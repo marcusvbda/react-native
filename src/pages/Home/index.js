@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { View, Button, Alert, Text } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
-import Loading from '../Loading'
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'
 
 export default function Home({ navigation }) {
     const [user, setUser] = useState("")
+    const [userId, setUserId] = useState("")
+    const [visible, setVisible] = useState(false)
 
     useEffect(() => {
-        AsyncStorage.getItem("user").then(user => {
-            user = JSON.parse(user)
-            setUser(user.email)
-        })
+        const init = async () => {
+            setUser(await AsyncStorage.getItem("user"))
+            setUserId(await AsyncStorage.getItem("user_id"))
+            setVisible(true)
+        }
+        init()
     }, [])
-
-    const isloading = () => {
-        return !user
-    }
 
     const logout = () => {
         Alert.alert('Confirmação', 'Deseja efetuar logout ?', [{
@@ -31,11 +31,14 @@ export default function Home({ navigation }) {
             }
         },])
     }
-
-    if (isloading()) return <Loading />
     return (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text>{user}</Text>
+            <ShimmerPlaceHolder autoRun={true} visible={visible}>
+                <Text>{userId}</Text>
+            </ShimmerPlaceHolder>
+            <ShimmerPlaceHolder autoRun={true} visible={visible} style={{ marginTop: 10, marginBottom: 10 }}>
+                <Text style={{ marginTop: 10, marginBottom: 10 }}>{user}</Text>
+            </ShimmerPlaceHolder>
             <Button title="Logout" onPress={logout}></Button>
         </View>
     )

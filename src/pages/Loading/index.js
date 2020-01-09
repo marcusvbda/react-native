@@ -1,10 +1,23 @@
 import React from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
 
 export default function Loading() {
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text>Loading</Text>
+        <View style={[styles.container, styles.horizontal]}>
+            <ActivityIndicator size="large" color="#0000ff" />
         </View>
     )
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10
+    }
+})

@@ -10,26 +10,31 @@ import api from '../Services/api'
 import Loading from '../Loading'
 
 export default function Login({ navigation }) {
+    const [email, setEmail] = useState('admin@admin.com')
+    const [password, setPassword] = useState('admin')
     const [loading, setLoading] = useState(false)
-    const [email, setEmail] = useState('root')
-    const [password, setPassword] = useState('root')
 
     useEffect(() => {
-        const checkAuth = () => {
-            AsyncStorage.getItem("user").then(user => {
-                if (user) return navigation.navigate('Home')
-            })
+        const checkAuth = async () => {
+            let user = await AsyncStorage.getItem("user")
+            if (user) return navigation.navigate('Home')
         }
         checkAuth()
     }, [])
 
     const submit = () => {
-        if ((!email) || (!password)) return false
+        if ((!email) || (!password)) return Alert.alert("Erro", "Preencha os campos")
         setLoading(true)
         let credentials = `Basic ${btoa(email + ':' + password)}`
         api.defaults.headers.common['Authorization'] = credentials
-        api.post('/app/auth/login', {}).then(res => {
-            console.log("aqui", res)
+        api.post('/app/login', {}).then(async (res) => {
+            let user = res.data
+            if (user) {
+                await AsyncStorage.setItem("user", user.name)
+                await AsyncStorage.setItem("user_id", String(user.id))
+                navigation.navigate('Home')
+
+            }
             setLoading(false)
         }).catch(er => {
             console.log(er)
@@ -71,6 +76,6 @@ export default function Login({ navigation }) {
                     <Text style={global_styles.link} onPress={() => alert('cadastro')}>Não Possui Conta ?</Text>
                 </View>
             </View>
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView >
     )
 }

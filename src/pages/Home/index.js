@@ -1,45 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import { View, Button, Alert, Text } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
-import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'
+import { View, Text, TouchableOpacity, Alert } from 'react-native'
+import storage from '../../Services/storage'
+import api from '../../Services/api'
+import Loading from '../Loading'
 
 export default function Home({ navigation }) {
-    const [user, setUser] = useState("")
-    const [userId, setUserId] = useState("")
-    const [visible, setVisible] = useState(false)
+    const [courses, setCourses] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+
         const init = async () => {
-            setUser(await AsyncStorage.getItem("user"))
-            setUserId(await AsyncStorage.getItem("user_id"))
-            setVisible(true)
+            api.get("/courses").then(res => {
+                if (!res.data) return Alert.alert("Erro", "Erro ao carregar cursos")
+                else setCourses(res.data)
+                setLoading(false)
+            }).catch(er => {
+                console.log(er.response)
+                Alert.alert("Erro", "Erro ao carregar cursos")
+                setLoading(false)
+            })
         }
         init()
     }, [])
 
-    const logout = () => {
-        Alert.alert('Confirmação', 'Deseja efetuar logout ?', [{
-            text: 'Não',
-            onPress: () => false,
-            style: 'cancel',
-        },
-        {
-            text: 'Sim',
-            onPress: async () => {
-                AsyncStorage.removeItem("user")
-                return navigation.navigate('Login')
-            }
-        },])
+    const logout = async () => {
+        await storage.remove("user")
+        return navigation.navigate("Loader")
     }
+
+    if (loading) return <Loading />
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <ShimmerPlaceHolder autoRun={true} visible={visible}>
-                <Text>{userId}</Text>
-            </ShimmerPlaceHolder>
-            <ShimmerPlaceHolder autoRun={true} visible={visible} style={{ marginTop: 10, marginBottom: 10 }}>
-                <Text style={{ marginTop: 10, marginBottom: 10 }}>{user}</Text>
-            </ShimmerPlaceHolder>
-            <Button title="Logout" onPress={logout}></Button>
+        <View>
+            <TouchableOpacity onPress={() => logout()}><Text>Sair</Text></TouchableOpacity>
+            {
+                courses.map(c => <Text key={c.id} style={{ marginTop: 10 }} >{c.name}</Text>)
+            }
         </View>
     )
 }

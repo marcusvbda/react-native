@@ -27,16 +27,16 @@ export const Card = styled(Animated.View)`
     top : 0;
 `;
 
-export const CardHeader = styled.View`
+export const CardHeader = styled.TouchableOpacity`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 30px;
 `;
 
-export const CardContent = styled.View`
+export const CardContent = styled.TouchableOpacity`
     flex: 1;
-    padding: 0 30px;
+    padding: 0 30px 20px 30px;
     justify-content: center;
 `;
 
@@ -46,7 +46,7 @@ export const Title = styled.Text`
     color: #333;
 `;
 
-export const CardFooter = styled.View`
+export const CardFooter = styled.TouchableOpacity`
     padding: 30px;
     background: #eee;
     border-radius: 4px;
@@ -61,4 +61,9 @@ export const HiddenContent = styled.View`
     height : 45px;
     width : 100%;
     background : #e5e5e5;
+`;
+
+export const Image = styled.Image`
+    width : 100%;
+    height : 100%;
 `;

@@ -19,8 +19,8 @@ import Loading from '~/pages/Loading';
 import storage from '~/services/storage';
 
 export default function Login({ navigation }) {
-    const [email, setEmail] = useState("owner@owner.com");
-    const [password, setPassword] = useState("owner");
+    const [email, setEmail] = useState("student@student.com");
+    const [password, setPassword] = useState("student");
     const [loading, setLoading] = useState(false);
 
     function submit() {
@@ -38,8 +38,8 @@ export default function Login({ navigation }) {
             return navigation.navigate('App');
         }).catch(er => {
             message.simple("Erro", "Erro ao efetuar login, verifique suas credenciais ...");
-            console.log("erro", er)
-            setLoading(false)
+            console.log("erro", er);
+            setLoading(false);
         })
     }
 

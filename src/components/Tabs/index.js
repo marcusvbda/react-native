@@ -7,16 +7,17 @@ import {
 } from './styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default function Tabs({ translateY }) {
+export default function Tabs({ translateY, courses, principal, setPrincipal }) {
 
     function renderItems() {
-        return [1, 2, 3, 4, 5].map(item => {
-            return <TabItem key={item}>
-                <Icon name="stars" size={24} color="#3f3f3f" style={{ alignSelf: "center" }} />
-                <TabText>Lorem Ipsum</TabText>
+        return courses.filter(x => x.id != principal).map(course => {
+            return <TabItem key={course.id} onPress={() => { setPrincipal(course.id) }}>
+                <Icon name="search" size={24} color="#3f3f3f" style={{ alignSelf: "center" }} />
+                <TabText>{course.name}</TabText>
             </TabItem>
         })
     }
+
 
     return (
         <Container style={{

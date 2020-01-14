@@ -29,8 +29,8 @@ export default function SetSchool({ navigation }) {
             return navigation.navigate('App');
         }).catch(er => {
             message.simple("Erro", "Erro ao efetuar login, verifique suas credenciais ...");
-            console.log("erro", er)
-            setLoading(false)
+            console.log("erro", er);
+            setLoading(false);
         })
     }
 

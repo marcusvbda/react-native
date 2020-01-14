@@ -1,17 +1,22 @@
-import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import Loader from './pages/Loader'
-import SetSchool from './pages/Auth/SetSchool'
-import Login from './pages/Auth/Login'
-import Home from './pages/Home'
+import Splash from '~/pages/Splash';
+import Main from '~/pages/Main';
+import Login from '~/pages/Login';
+import SetSchool from '~/pages/SetSchool';
 
-const Routes = createAppContainer(
-    createSwitchNavigator({
-        Loader,
-        SetSchool,
-        Login,
-        Home
-    })
-)
+const Auth = createSwitchNavigator({
+    Login,
+    SetSchool
+});
 
-export default Routes
+const App = createSwitchNavigator({
+    Main
+});
+
+const SwitchNavigator = createSwitchNavigator({
+    Splash,
+    App,
+    Auth
+});
+export default createAppContainer(SwitchNavigator);

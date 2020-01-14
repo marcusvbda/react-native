@@ -1,13 +1,8 @@
-import axios from 'axios'
+import axios from 'axios';
+import { ApiServer } from '~/config';
 
 const api = axios.create({
-    baseURL: 'http://0d5223b3.ngrok.io/api/app',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    responseType: 'json'
-})
+  baseURL: ApiServer.baseURL
+});
 
-export default api
-
-// >ngrok.exe http http://127.0.0.1:8000
+export default api;
